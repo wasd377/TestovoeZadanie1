@@ -8,14 +8,32 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var textField = ""
+    
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Image(systemName: "globe")
                 .imageScale(.large)
-                .foregroundColor(.accentColor)
+                .foregroundColor(Color(hex: 0x2B7EFE))
             Text("Hello, world!")
+                .font(.fontTitle3)
+        
+            HStack{
+                
+                Button("Label") {}
+                    .buttonStyle(BigBlueButton(isDisabled: false))
+                
+                Button("Label") {}
+                    .buttonStyle(BigBlueButton(isDisabled: true))
+            }
+           
+            TextField("Электронная почта или телефон", text: $textField)
+                .foregroundColor(.white)
+                
+            
         }
-        .padding()
+        
     }
 }
 
