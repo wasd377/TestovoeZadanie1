@@ -8,7 +8,10 @@
 import Foundation
 import SwiftUI
 
-// В этом файле будут храниться все необходимые расширения для создания интерфейса: цвета, шрифты, кнопки и т.д.
+// В этом файле будут храниться все необходимые расширения для создания интерфейса:
+// - цвета
+// - шрифты
+// - квадратики для ввода пинкода
 
 // Создаем все цвета, используемые в проекте
 extension Color {
@@ -42,7 +45,7 @@ extension Font {
     public static let fontTitle1 = Font(UIFont.systemFont(ofSize: 22, weight: UIFont.Weight.semibold))
     public static let fontTitle2 = Font(UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.semibold))
     public static let fontTitle3 = Font(UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.medium))
-    public static let fontTitle4a = Font(UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium))
+    public static let fontTitle4 = Font(UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium))
     
     public static let fontText1 = Font(UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.regular))
     
@@ -99,4 +102,19 @@ struct SmallBlueButton: ButtonStyle {
         }
     }
     
+}
+
+struct PinCode: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(.basicWhite)
+            .multilineTextAlignment(.center)
+            .padding([.top, .bottom], 10)
+            .preferredColorScheme(.light)
+            .frame(width: 48, height: 48)
+            .fixedSize(horizontal: true, vertical: true)
+            .background(Color.basicGrey2)
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .padding(.bottom, 16)
+    }
 }

@@ -23,10 +23,6 @@ struct Vhod1View: View {
                     .font(.fontTitle2)
                     Spacer()
                 ZStack {
-//                    RoundedRectangle(cornerRadius: 8)
-//                        .foregroundColor(.basicGrey1)
-//                        .background(.black)
-//                        .padding(.top, 67)
                     VStack(alignment: .leading) {
                         Text("Поиск работы")
                             .font(.fontTitle3)

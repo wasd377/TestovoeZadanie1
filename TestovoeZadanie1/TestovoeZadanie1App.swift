@@ -10,9 +10,12 @@ import SwiftUI
 @main
 struct TestovoeZadanie1App: App {
     var body: some Scene {
+        
+        
         WindowGroup {
-            ContentView()
+           ContentView()
                 .environmentObject(VhodViewModel())
+                .environmentObject(GlavnayaViewModel())
         }
     }
 }

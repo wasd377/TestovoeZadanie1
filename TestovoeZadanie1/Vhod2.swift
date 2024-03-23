@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Vhod2: View {
+struct Vhod2View: View {
     
     @EnvironmentObject var vm : VhodViewModel
     
@@ -32,35 +32,44 @@ struct Vhod2: View {
                 .foregroundColor(.basicWhite)
                 .font(.fontTitle3)
                 .padding(.bottom, 16)
-            if focusedField == .codeField1 {
-                Text("1")
-                    .foregroundColor(.basicWhite)
-            }
-            else {
-                Text("lol")
-                    .foregroundColor(.basicWhite)
-            }
                 
-            TextField(" ", text: $codeField1, prompt: focusedField == .codeField1 ? Text("Yes") : Text("N").foregroundColor(.basicGrey4).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold))))
-                      
-                      //Text("*").foregroundColor(.basicGrey4).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold))) : Text("")).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold)))
-                .focused($focusedField, equals: .codeField1)
-                .foregroundColor(.basicWhite)
-                .multilineTextAlignment(.center)
-                .padding([.top, .bottom], 10)
-                .preferredColorScheme(.light)
-                .frame(width: 48, height: 48)
-                .fixedSize(horizontal: true, vertical: true)
-                .background(Color.basicGrey2)
-                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                .padding(.bottom, 16)
+            HStack {
+                TextField(" ", text: $codeField1, prompt: focusedField == .codeField1 ? Text("Yes") : Text("*").foregroundColor(.basicGrey4).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold))))
+                    .focused($focusedField, equals: .codeField1)
+                    .modifier(PinCode())
+                TextField(" ", text: $codeField2, prompt: focusedField == .codeField2 ? Text("Yes") : Text("*").foregroundColor(.basicGrey4).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold))))
+                    .focused($focusedField, equals: .codeField2)
+                    .modifier(PinCode())
+                TextField(" ", text: $codeField3, prompt: focusedField == .codeField3 ? Text("Yes") : Text("*").foregroundColor(.basicGrey4).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold))))
+                    .focused($focusedField, equals: .codeField3)
+                    .modifier(PinCode())
+                TextField(" ", text: $codeField4, prompt: focusedField == .codeField4 ? Text("Yes") : Text("*").foregroundColor(.basicGrey4).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold))))
+                    .focused($focusedField, equals: .codeField4)
+                    .modifier(PinCode())
+            }
+            .onChange(of: codeField1) { value in
+                if !codeField1.isEmpty {
+                    focusedField = .codeField2
+                }
+            }
+            .onChange(of: codeField2) { value in
+                if !codeField2.isEmpty {
+                    focusedField = .codeField3
+                }
+            }
+            .onChange(of: codeField3) { value in
+                if !codeField3.isEmpty {
+                    focusedField = .codeField4
+                }
+            }
+            
+            
             Button("Подтвердить") {
                 
-                focusedField = .codeField1
-                  
+             // Здесь будет код перехода на другой экран
                
             }
-            .buttonStyle(BigBlueButton(isDisabled: false))
+            .buttonStyle(BigBlueButton(isDisabled: !codeField1.isEmpty && !codeField2.isEmpty && !codeField3.isEmpty && !codeField4.isEmpty))
         }
         .onAppear {
             focusedField = .codeField1
@@ -70,9 +79,11 @@ struct Vhod2: View {
     }
 }
 
-struct Vhod2_Previews: PreviewProvider {
+struct Vhod2View_Previews: PreviewProvider {
+    
     static var previews: some View {
-        Vhod2()
+    
+        Vhod2View()
             .environmentObject(VhodViewModel())
     }
 }
