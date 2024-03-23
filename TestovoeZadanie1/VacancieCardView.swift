@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-struct VacanciePreviewView: View {
+struct VacancieCardView: View {
     
     var vacancie : Vacancie
-    var user : User
     
     @EnvironmentObject var vm : GlavnayaViewModel
     @EnvironmentObject var vmVhod : VhodViewModel
@@ -19,7 +18,6 @@ struct VacanciePreviewView: View {
         Group {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
-                    
                     Group {
                         if vacancie.lookingNumber != nil {
                             (2...4).contains(vacancie.lookingNumber!) ? Text("Сейчас просматривает \(vacancie.lookingNumber!) человека") : Text("Сейчас просматривает \(vacancie.lookingNumber!) человек")
@@ -28,13 +26,20 @@ struct VacanciePreviewView: View {
                     .foregroundColor(.specialGreen)
                     .font(.fontText1)
                     Spacer()
-                    Image(systemName: vacancie.isFavorite ? "heart.fill" : "heart")
-                        .foregroundColor(vacancie.isFavorite ? Color.specialBlue : Color.basicGrey3)
+                    Image(systemName: vm.favorites.contains(vacancie.id) ? "heart.fill" : "heart")
+                        .foregroundColor(vm.favorites.contains(vacancie.id) ? Color.specialBlue : Color.basicGrey3)
                         .font(.system(size:24))
                         .onTapGesture {
-                            
+                            if vm.favorites.contains(vacancie.id) {
+                                vm.favorites.removeAll{$0 == vacancie.id}
+                                UserDefaults.standard.removeObject(forKey: vmVhod.email)
+                                UserDefaults.standard.set(vm.favorites, forKey: vmVhod.email)
+                            } else {
+                                vm.favorites.append(vacancie.id)
+                                UserDefaults.standard.removeObject(forKey: vmVhod.email)
+                                UserDefaults.standard.set(vm.favorites, forKey: vmVhod.email)
+                            }
                         }
-                  
                 }
                 Text(vacancie.title)
                     .foregroundColor(.basicWhite)
@@ -63,12 +68,10 @@ struct VacanciePreviewView: View {
                 }
                 .foregroundColor(.basicGrey3)
                 .font(.fontText1)
-                // print("day: \(date.get(.day)), month: \(date.get(.month)), year: \(date.get(.year))")
+                .padding([.bottom, .top], 10)
                 Button ("Откликнуться") {
-                    
                 }
                 .buttonStyle(BigGreenButton(isDisabled: false))
-                
             }
         }
         .padding([.top, .bottom], 24)
@@ -81,14 +84,13 @@ struct VacanciePreviewView: View {
 }
 
 
-struct VacanciePreviewView_Previews: PreviewProvider {
+struct VacancieCardView_Previews: PreviewProvider {
     
-    static var vacancies : [Vacancie] = Bundle.main.decode("VerySimpleData")
+    static var vacancies : [Vacancie] = Bundle.main.decode("SimpleData")
     static var vacancie = vacancies[0]
-    static var user = User(email: "wasd")
 
     static var previews: some View {
-        VacanciePreviewView(vacancie: vacancie, user: user)
+        VacancieCardView(vacancie: vacancie)
             .environmentObject(GlavnayaViewModel())
             .environmentObject(VhodViewModel())
     }

@@ -10,19 +10,32 @@ import Foundation
 class GlavnayaViewModel: ObservableObject {
     
     @Published var vacancies = [Vacancie]()
+    @Published var favorites = [String]()
     
-    func loadLocalData() {
+    func loadLocalData(email: String) {
         // find file with data
-        if let url = Bundle.main.url(forResource: "VerySimpleData", withExtension: nil) {
+        if let url = Bundle.main.url(forResource: "TestData", withExtension: nil) {
             // load file into string
             if let jsonData = try? Data(contentsOf: url) {
                 
-                let json = try? JSONDecoder().decode([Vacancie].self, from: jsonData)
+                let json = try? JSONDecoder().decode(JSONContainer.self, from: jsonData)
                 
-                vacancies = json ?? []
-                
+                vacancies = json?.vacancies ?? []
+          
             }
         }
+        
+        favorites = UserDefaults.standard.object(forKey: email) as? [String] ?? [String]()
+
+        for vacancie in vacancies {
+            if vacancie.isFavorite == true && !favorites.contains(vacancie.id) {
+                favorites.append(vacancie.id)
+            }
+        }
+        
+        UserDefaults.standard.removeObject(forKey: email)
+        UserDefaults.standard.set(favorites, forKey: email)
+        
         }
     
     // Склоняем названия месяцов как надо
@@ -44,32 +57,7 @@ class GlavnayaViewModel: ObservableObject {
             return newDate
         }
     
-    // Добавляем вакансию в избранное
-    func addFavorite(favorite: String, email: String) {
-        
-        var savedFavorites = UserDefaults.standard.array(forKey: email) as? [String]
-        savedFavorites?.append(favorite)
-        UserDefaults.standard.set(savedFavorites, forKey: email)
-    }
-    
-    // Проверяем, что вакансия в избранном
-    func checkFavorite(favorite: String, email: String) -> Bool {
-        
-        let savedFavorites = UserDefaults.standard.array(forKey: email) as? [String]
-        if ((savedFavorites?.contains(favorite)) != nil) {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    // Удаляем вакансию из избранного
-    func removeFavorite(favorite: String, email: String) {
-        
-        var savedFavorites = UserDefaults.standard.array(forKey: email) as? [String]
-        savedFavorites = savedFavorites?.filter{$0 != favorite}
-        UserDefaults.standard.set(savedFavorites, forKey: email)
-    }
+    // Делаем первые буквы заглавными в графике работы
 }
 
 extension Bundle {

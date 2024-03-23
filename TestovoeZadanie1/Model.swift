@@ -35,30 +35,26 @@ struct Vacancie: Identifiable, Codable {
     var publishedDate: String
     var isFavorite: Bool
     
-//    var salary: Salary?
-//    struct Salary: Codable {
-//
-//        var short: String?
-//        var full: String
-//    }
-//
-//    var schedules: [String]?
-//    var appliedNumber: Int?
-//    var description: String?
-//    var responsibilities: String?
-//    var questions: [String]?
+    var salary: Salary
+    
+    struct Salary: Codable {
+        var short: String?
+        var full: String
+    }
+
+    var schedules: [String]
+    
+    var appliedNumber: Int?
+    var description: String?
+    var responsibilities: String
+    var questions: [String]
     
 }
 
 // Определяем JSONContainer, то есть описываем куда нужно идти парсеру и что забирать.
-struct JSONContainer: Decodable {
+struct JSONContainer: Codable {
 // Из JSON мы забираем только данные по вакансиям
     let vacancies: [Vacancie]
-}
-
-// Вакансии, которые пользователь сохранил в избранное
-struct Favorites: Codable {
-    var id: UUID
 }
 
 

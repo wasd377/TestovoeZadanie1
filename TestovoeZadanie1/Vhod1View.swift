@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Vhod1View: View {
     
-    @EnvironmentObject var vm : VhodViewModel
+    @EnvironmentObject var vmVhod : VhodViewModel
 
     @State var textField = ""
     @State var textFieldCheckResult = ""
@@ -39,6 +39,7 @@ struct Vhod1View: View {
                                 .padding(10)
                                 .font(.fontText1)
                                 .textFieldStyle(.roundedBorder)
+                                .autocapitalization(.none)
                             if !textField.isEmpty {
                                        Button {
                                            textField = ""
@@ -68,7 +69,7 @@ struct Vhod1View: View {
                             Button("Продолжить"){
                                 
                                 if textField.isValidEmail {
-                                    vm.email = textField
+                                    vmVhod.email = textField
                                     //переход на следующий экран
                                 } else {
                                     textFieldCheckResult = "Вы ввели неверный e-mail."
@@ -114,7 +115,6 @@ struct Vhod1View: View {
                 }
                 Spacer()
             }
-            //.padding([.leading, .trailing], 16)
         }
         
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -123,11 +123,7 @@ struct Vhod1View: View {
     }
 }
 
-extension String {
-    var isValidEmail: Bool {
-        NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}").evaluate(with: self)
-    }
-}
+
 
 
 

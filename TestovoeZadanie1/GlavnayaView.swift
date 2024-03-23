@@ -10,8 +10,11 @@ import SwiftUI
 struct GlavnayaView: View {
     
     @EnvironmentObject var vm: GlavnayaViewModel
+    @EnvironmentObject var vmVhod: VhodViewModel
     
     @State var searchText = ""
+    @State var showAllVacancies = false
+    
     var body: some View {
         
         VStack(alignment: .leading) {
@@ -121,18 +124,35 @@ struct GlavnayaView: View {
             
             ScrollView {
                 VStack(spacing: 20) {
-                    ForEach(vm.vacancies) { vacancie in
-                        VacanciePreviewView(vacancie: vacancie, user: User(email:"wasd"))
+                    
+                    Group {
+                        if showAllVacancies == false {
+                            ForEach(vm.vacancies.prefix(3)) { vacancie in
+                                
+                                VacancieCardView(vacancie: vacancie)
+                            }
+                        } else {
+                            ForEach(vm.vacancies) { vacancie in
+                                
+                                VacancieCardView(vacancie: vacancie)
+                            }
+                        }
                     }
                     .padding([.leading, .trailing], 16)
-                    Button("Еще \(vm.vacancies.count) вакансии") {
-                        vm.loadLocalData()
+                    
+                    Button {
+                    } label: {
+                  if vm.vacancies.count == 1 {
+                      Text("Еще \(vm.vacancies.count) вакансия") } else if vm.vacancies.count > 1 && vm.vacancies.count < 5 {
+                          Text("Еще \(vm.vacancies.count) вакансии") } else {
+                              Text("Еще \(vm.vacancies.count) вакансий") }
+                     
                     }
                     .buttonStyle(BigBlueButton(isDisabled: false))
                     .padding([.leading, .trailing], 16)
                 }
                 .onAppear{
-                    vm.loadLocalData()
+                    vm.loadLocalData(email: vmVhod.email)
                 }
             
             
@@ -147,5 +167,6 @@ struct Glavnaya_Previews: PreviewProvider {
     static var previews: some View {
         GlavnayaView()
             .environmentObject(GlavnayaViewModel())
+            .environmentObject(VhodViewModel())
     }
 }

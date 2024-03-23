@@ -16,16 +16,17 @@ struct ContentView: View {
     @State private var lastName = ""
     @FocusState private var focusedField: FocusedField?
     @State var currentView = "Vhod1"
-    
-    var user = User(email: "wasd")
-    var vacancies : [Vacancie] = Bundle.main.decode("VerySimpleData")
-   
 
     var body: some View {
         
+        var vacancies : [Vacancie] = Bundle.main.decode("SimpleData")
         var vacancie = vacancies[0]
         
         VStack {
+            if currentView == "TestView"
+            {
+                Vhod1View()
+            }
             if currentView == "Vhod1"
             {
                 Vhod1View()
@@ -42,9 +43,16 @@ struct ContentView: View {
             }
             if currentView == "VacanciePreviewView"
             {
-                VacanciePreviewView(vacancie: vacancie, user: User(email: "wasd"))
+                VacancieCardView(vacancie: vacancie)
+            }
+            if currentView == "FavoritesView"
+            {
+                FavoritesView()
             }
             HStack {
+                Button("TestView") {
+                    currentView = "Vhod1"
+                }
                 Button("Vhod1") {
                     currentView = "Vhod1"
                 }
@@ -54,8 +62,11 @@ struct ContentView: View {
                 Button("Glavnaya") {
                     currentView = "Glavnaya"
                 }
-                Button("VacanciePreviewView") {
-                    currentView = "VacanciePreviewView"
+                Button("VacancieCardView") {
+                    currentView = "VacancieCardView"
+                }
+                Button("Favorites") {
+                    currentView = "FavoritesView"
                 }
         }
     

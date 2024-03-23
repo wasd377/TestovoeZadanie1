@@ -12,50 +12,38 @@ struct TestView: View {
     let userDefaults = UserDefaults.standard
     @State var favorites : [String] = []
     
-    func loadFavorites() {
-        var savedFavorites = UserDefaults.standard.array(forKey: "wasd") as? [String]
-        favorites = savedFavorites ?? []
-        
-    }
-   
-    func simpleAdd() {
-        var favorite = "abrams25"
-        favorites.append(favorite)
-        UserDefaults.standard.removeObject(forKey: "wasd")
-        UserDefaults.standard.set(favorites, forKey: "wasd")
-    }
-    
-    func simpleRemove() {
-        var favorite = "abraham"
-        favorites = favorites.filter{$0 != favorite}
-        UserDefaults.standard.set(favorites, forKey: "wasd")
-    }
-    
+    @State var schedules =  [
+      "полная занятость",    "полный день"
+    ]
+    @State var newSchedules = [String]()
     
     var body: some View {
-        VStack {
-            Button("Add") {
-                simpleAdd()
-            }
-            Button("Remove") {
-                simpleRemove()
-            }
-       
-            var savedString = favorites.joined(separator: ", ")
+        
+        //let newArray = schedules.map {$0.capitalized}
+        let joined = schedules.joined(separator: ",")
+        let joinedNew = newSchedules.joined(separator: ", ")
+   
+        VStack{
+            Text(joined)
+            Text(joinedNew)
+            Button("Go!") {
             
-            if favorites != nil {
-                Text(savedString)
-            } else {
-                Text("pustota")
             }
-            
         }
-        .onAppear {
-            loadFavorites()
         }
+    
+
       
     }
-}
+
+
+
+extension String {
+       var capitalizeFirstLetter:String {
+            return self.prefix(1).capitalized + dropFirst()
+       }
+  }
+
 
 struct TestView_Previews: PreviewProvider {
     static var previews: some View {

@@ -11,6 +11,7 @@ import SwiftUI
 // В этом файле будут храниться все необходимые расширения для создания интерфейса:
 // - цвета
 // - шрифты
+// - проверка емейла на валидность
 // - квадратики для ввода пинкода
 
 // Создаем все цвета, используемые в проекте
@@ -89,21 +90,27 @@ struct BigGreenButton: ButtonStyle {
      }
 }
 
-struct SmallBlueButton: ButtonStyle {
+struct fakeBigGreenButton: ButtonStyle {
     var isDisabled: Bool
-    func makeBody(configuration: Configuration) -> some View {
-        GeometryReader { geometry in
-            configuration.label
-                .frame(maxWidth: geometry.size.width*1)
-                .padding(20)
-                .background(isDisabled ? Color.specialDarkBlue : Color.specialBlue)
-                .foregroundStyle(isDisabled ? Color.basicGrey4 : Color.basicWhite)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-        }
-    }
-    
+
+    func makeBody(configuration: ButtonStyleConfiguration) -> some View {
+         configuration.label
+            .frame(maxWidth: .infinity)
+            .padding(20)
+             .background(isDisabled ? Color.specialDarkGreen : Color.specialGreen)
+             .foregroundStyle(isDisabled ? Color.basicGrey4 : Color.basicWhite)
+             .clipShape(RoundedRectangle(cornerRadius: 8))
+     }
 }
 
+// Проверяем емейл на соответствие маске
+extension String {
+    var isValidEmail: Bool {
+        NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}").evaluate(with: self)
+    }
+}
+
+// Внешний вид квадратиков пинкодов
 struct PinCode: ViewModifier {
     func body(content: Content) -> some View {
         content

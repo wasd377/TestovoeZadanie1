@@ -10,6 +10,10 @@ import SwiftUI
 struct VacancieView: View {
     
     @EnvironmentObject var vm: GlavnayaViewModel
+    @EnvironmentObject var vmVhod: VhodViewModel
+    
+    var vacancie : Vacancie
+    @State var newSchedules = [String]()
     
     var body: some View {
         VStack(alignment: .leading){
@@ -24,46 +28,64 @@ struct VacancieView: View {
                 Image("Share")
                     .foregroundColor(.basicWhite)
                     .font(.system(size:24))
-                Image(systemName: "heart")
-                    .foregroundColor(.basicWhite)
+                Image(systemName: vm.favorites.contains(vacancie.id) ? "heart.fill" : "heart")
+                    .foregroundColor(vm.favorites.contains(vacancie.id) ? Color.specialBlue : Color.basicWhite)
                     .font(.system(size:24))
+                    .onTapGesture {
+                        if vm.favorites.contains(vacancie.id) {
+                            vm.favorites.removeAll{$0 == vacancie.id}
+                            UserDefaults.standard.removeObject(forKey: vmVhod.email)
+                            UserDefaults.standard.set(vm.favorites, forKey: vmVhod.email)
+                        } else {
+                            vm.favorites.append(vacancie.id)
+                            UserDefaults.standard.removeObject(forKey: vmVhod.email)
+                            UserDefaults.standard.set(vm.favorites, forKey: vmVhod.email)
+                        }
+                    }
             }
             .padding(.bottom, 16)
             Group {
-                Text("UX Designer")
+                Text(vacancie.title)
                     .font(.fontTitle1)
                     .padding(.bottom, 12)
-                Text("уровень дохода")
+                Text(vacancie.salary.full)
                     .font(.fontText1)
-                    .padding(.bottom, 12)
-                Text("Требуемый опыт")
+                    .padding(.bottom, 16)
+                Group {
+                    Text("Требуемый опыт: ") + Text(vacancie.experience.text)
+                }
                     .font(.fontText1)
-                .padding(.bottom, 4)
-                Text("Занятость")
+                .padding(.bottom, -4)
+                Text(newSchedules.joined(separator: ", "))
                     .font(.fontText1)
+                    .padding(.bottom, 16)
             }
             .foregroundColor(.basicWhite)
+            GeometryReader { geo in
             ScrollView(.vertical) {
                 VStack(alignment: .leading) {
+                    
                     HStack {
-                        HStack(alignment: .top) {
-                            Text("147 человек уже откликнулись")
-                            Spacer()
-                            Image(systemName: "person")
-                                .font(.system(size:14))
-                                .foregroundColor(.basicWhite)
-                                .background {
-                                    Circle()
-                                        .fill(Color.specialGreen)
-                                        .frame(width: 24, height: 24)
-                                }
+                        if (vacancie.appliedNumber ?? 0) > 0 {
+                            HStack(alignment: .top) {
+                                Text(String(vacancie.appliedNumber ?? 0)) + Text(" человек уже откликнулись")
+                                Spacer()
+                                Image(systemName: "person")
+                                    .font(.system(size:14))
+                                    .foregroundColor(.basicWhite)
+                                    .background {
+                                        Circle()
+                                            .fill(Color.specialGreen)
+                                            .frame(width: 24, height: 24)
+                                    }
+                            }
+                            .padding()
+                            .foregroundColor(.basicWhite)
+                            .frame(maxWidth: geo.size.width*0.5)
+                            .background(Color.specialDarkGreen)
+                            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                         }
-                        .padding()
-                        .foregroundColor(.basicWhite)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.specialDarkGreen)
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                        
+                        Spacer()
                         HStack(alignment: .top) {
                             Text("2 человека сейчас смотрят")
                             Spacer()
@@ -76,45 +98,105 @@ struct VacancieView: View {
                                         .frame(width: 24, height: 24)
                                 }
                         }
-                                .foregroundColor(.basicWhite)
-                                .padding([.top, .bottom], 16)
-                                .frame(maxWidth: .infinity)
-                                .padding([.leading, .trailing], 16)
-                                .background(Color.specialDarkGreen)
-                                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        .foregroundColor(.basicWhite)
+                        .padding([.top, .bottom], 16)
+                        .frame(maxWidth: geo.size.width*0.5)
+                        .padding([.leading, .trailing], 16)
+                        .background(Color.specialDarkGreen)
+                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                         
                     }
-                    Text("Название компании")
-                    Image(systemName: "map")
-                    Text("адрес компании")
-                    Text("описание компании")
+                    
+                    .padding(.bottom, 16)
+                    VStack(alignment: .leading) {
+                        HStack(alignment: .bottom) {
+                            Text(vacancie.company)
+                                .foregroundColor(.basicWhite)
+                                .font(.fontTitle3)
+                            Image(systemName: "checkmark.circle")
+                                .foregroundColor(.basicGrey3)
+                        }
+                        Image("CompanyMap")
+                            .resizable()
+                            .frame(maxWidth: .infinity)
+                            .scaledToFill()
+                        
+                        Text("\(vacancie.address.town), \(vacancie.address.street), \(vacancie.address.house)")
+                            .foregroundColor(.basicWhite)
+                            .font(.fontText1)
+                    }
+                    .padding([.top, .bottom], 12)
+                    .frame(maxWidth: .infinity)
+                    .padding([.leading, .trailing], 16)
+                    .background(Color.basicGrey1)
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .padding(.bottom, 16)
+                    Text(vacancie.description ?? "")
+                        .foregroundColor(.basicWhite)
+                        .padding(.bottom, 24)
+                        .fixedSize(horizontal: false, vertical: true)
                     Text("Ваши задачи")
                         .font(.fontTitle2)
+                        .padding(.bottom, 12)
                         .foregroundColor(.basicWhite)
-                    Text("Описание задач")
+                    Text(vacancie.responsibilities)
+                        .foregroundColor(.basicWhite)
+                        .font(.fontText1)
+                        .padding(.bottom, 16)
+                        .fixedSize(horizontal: false, vertical: true)
                     Text("Задайте вопрос работодателю")
                         .font(.fontTitle4)
                         .foregroundColor(.basicWhite)
                     Text("Он получит его с откликом на вакансию.")
                         .font(.fontTitle4)
                         .foregroundColor(.basicGrey3)
-                    ForEach(1..<4) { question in
-                        Text("question")
+                        .padding(.bottom, 16)
+                    ForEach(vacancie.questions, id: \.self) { question in
+                        Text(question)
+                            .foregroundColor(.basicWhite)
+                            .font(.fontTitle4)
+                            .padding([.top, .bottom], 8)
+                            .padding([.leading, .trailing], 16)
+                            .background(Color.basicGrey1)
+                            .clipShape(RoundedRectangle(cornerRadius: 50, style: .continuous))
                     }
                     
+                    Button("Откликнуться") {
+                        
+                    }
+                    .buttonStyle(fakeBigGreenButton(isDisabled: false))
+                    .padding(.top, 16)
                 }
+            }
             }
         }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(.black)
+                .onAppear {
+                    recapitilize(array: vacancie.schedules)
+                }
         
+    }
+    
+    func recapitilize(array: [String]) {
+        newSchedules = [String]()
+        for string in array {
+            let newString = string.prefix(1).capitalized + string.dropFirst()
+            newSchedules.append(newString)
+        }
     }
         
 }
 
 struct VacancieView_Previews: PreviewProvider {
+    
+    static var vacancies : [Vacancie] = Bundle.main.decode("SimpleData")
+    static var vacancie = vacancies[1]
+    static var user = User(email: "wasd")
+    
     static var previews: some View {
-        VacancieView()
+        VacancieView(vacancie: vacancie)
             .environmentObject(GlavnayaViewModel())
+            .environmentObject(VhodViewModel())
     }
 }
