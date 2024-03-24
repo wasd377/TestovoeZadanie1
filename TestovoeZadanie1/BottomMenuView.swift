@@ -9,88 +9,60 @@ import SwiftUI
 
 struct BottomMenuView: View {
     
+    @EnvironmentObject var vm: GlavnayaViewModel
+    @EnvironmentObject var vmVhod: VhodViewModel
+    
+    init() {
+        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.basicGrey3)
+    }
+    
     var authorizedUser = false
     
     var body: some View {
         
-        if authorizedUser == false {
+        
             
-            TabView {
-                Vhod1View()
-                    .tabItem {
-                        Image(systemName: "magnifyingglass")
-                            .renderingMode(.template)
-                            .accentColor(.basicWhite)
-                        Text("Поиск")
-                           
-                    }
-                Vhod1View()
-                    .tabItem {
-                        Image(systemName: "heart")
-                            .renderingMode(.template)
-                            .foregroundStyle(.red)
-                            .environment(\.symbolVariants, .none)
-                        Text("Избранное")
-                            
-                            .foregroundColor(.basicGrey4)
-                    }
-                Vhod1View()
-                    .tabItem {
-                        Image("Envelope")
-                            .renderingMode(.template)
-                            .accentColor(.basicWhite)
-                        Text("Отклики")
-//                        Label("Отклики", systemImage: "envelope")
-//                            .environment(\.symbolVariants, .none)
-//                            .background(Color.basicGrey4)
-                    }
-                Vhod1View()
-                    .tabItem {
-                        Label("Сообщения", systemImage: "message")
-                            .environment(\.symbolVariants, .none)
-                    }
-                Vhod1View()
-                    .tabItem {
-                        Label("Профиль", systemImage: "person")
-                            .environment(\.symbolVariants, .none)
-                    }
-            }
-            
-        } else {
-            
-            TabView {
-                ContentView()
-                    .tabItem {
+        TabView {
+            Group {
+                Vhod1View().tabItem {
                         Label("Поиск", systemImage: "magnifyingglass")
-                    }
-                ContentView()
-                    .tabItem {
+                }
+                FavoritesView().tabItem {
                         Label("Избранное", systemImage: "heart")
                             .environment(\.symbolVariants, .none)
-                    }
-                ContentView()
+                }
+                .badge(vm.favorites.count > 0 ? vm.favorites.count : 0)
+                Vhod1View()
                     .tabItem {
-                        Label("Отклики", systemImage: "envelope")
+                        VStack {
+                            Text("Отклики")
+                            Image(systemName: "envelope").renderingMode(.template)
+                                .environment(\.symbolVariants, .none)
+                        }
+                    }
+                Vhod1View()
+                    .tabItem {
+                        Label("Сообщения", systemImage: "magnifyingglass")
                             .environment(\.symbolVariants, .none)
                     }
-                ContentView()
-                    .tabItem {
-                        Label("Сообщения", systemImage: "message")
-                            .environment(\.symbolVariants, .none)
-                    }
-                ContentView()
+                Vhod1View()
                     .tabItem {
                         Label("Профиль", systemImage: "person")
                             .environment(\.symbolVariants, .none)
                     }
             }
         }
+           
+            
+        
     }
 }
 
 struct BottomMenuView_Previews: PreviewProvider {
     static var previews: some View {
         BottomMenuView()
+            .environmentObject(GlavnayaViewModel())
+            .environmentObject(VhodViewModel())
             
     }
 }

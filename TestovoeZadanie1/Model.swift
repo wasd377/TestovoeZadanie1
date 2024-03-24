@@ -51,9 +51,7 @@ struct Vacancie: Identifiable, Codable {
     
 }
 
-// Определяем JSONContainer, то есть описываем куда нужно идти парсеру и что забирать.
-struct JSONContainer: Codable {
-// Из JSON мы забираем только данные по вакансиям
+struct Vacancies: Codable {
     let vacancies: [Vacancie]
 }
 
