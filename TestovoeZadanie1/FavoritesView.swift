@@ -10,7 +10,6 @@ import SwiftUI
 struct FavoritesView: View {
     
     @EnvironmentObject var vm : GlavnayaViewModel
-    @EnvironmentObject var vmVhod : VhodViewModel
     
     var body: some View {
         
@@ -49,7 +48,7 @@ struct FavoritesView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.black)
         .onAppear {
-            vm.loadLocalData(email: vmVhod.email)
+            vm.loadLocalData(email: vm.email)
         }
     }
 }
@@ -63,6 +62,6 @@ struct FavoritesView_Previews: PreviewProvider {
     static var previews: some View {
         FavoritesView()
             .environmentObject(GlavnayaViewModel())
-            .environmentObject(VhodViewModel())
+        
     }
 }

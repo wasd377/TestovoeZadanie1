@@ -61,9 +61,7 @@ extension Font {
 
 // Создаем все кнопки, используемые в проекте
 struct BigBlueButton: ButtonStyle {
-    
     var isDisabled: Bool
-
     func makeBody(configuration: ButtonStyleConfiguration) -> some View {
          configuration.label
             .font(.fontButtonText1)
@@ -72,7 +70,6 @@ struct BigBlueButton: ButtonStyle {
              .background(isDisabled ? Color.specialDarkBlue : Color.specialBlue)
              .foregroundStyle(isDisabled ? Color.basicGrey4 : Color.basicWhite)
              .clipShape(RoundedRectangle(cornerRadius: 8))
-
      }
 }
 

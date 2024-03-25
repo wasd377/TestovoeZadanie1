@@ -10,7 +10,7 @@ import SwiftUI
 struct GlavnayaView: View {
     
     @EnvironmentObject var vm: GlavnayaViewModel
-    @EnvironmentObject var vmVhod: VhodViewModel
+    @EnvironmentObject var router: Router
     
     @State var searchText = ""
     @State var showAllVacancies = false
@@ -152,7 +152,7 @@ struct GlavnayaView: View {
                     .padding([.leading, .trailing], 16)
                 }
                 .onAppear{
-                    vm.loadLocalData(email: vmVhod.email)
+                    vm.loadLocalData(email: vm.email)
                 }
             
             
@@ -167,6 +167,5 @@ struct Glavnaya_Previews: PreviewProvider {
     static var previews: some View {
         GlavnayaView()
             .environmentObject(GlavnayaViewModel())
-            .environmentObject(VhodViewModel())
     }
 }

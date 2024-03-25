@@ -9,7 +9,8 @@ import SwiftUI
 
 struct Vhod2View: View {
     
-    @EnvironmentObject var vm : VhodViewModel
+    @EnvironmentObject var vm : GlavnayaViewModel
+    @EnvironmentObject var router: Router
     
     @State var codeField1 = ""
     @State var codeField2 = ""
@@ -66,16 +67,18 @@ struct Vhod2View: View {
             
             Button("Подтвердить") {
                 
-             // Здесь будет код перехода на другой экран
+                router.navigateTo(.glavnaya)
                
             }
-            .buttonStyle(BigBlueButton(isDisabled: !codeField1.isEmpty && !codeField2.isEmpty && !codeField3.isEmpty && !codeField4.isEmpty))
+            .disabled(codeField1.isEmpty || codeField2.isEmpty || codeField3.isEmpty || codeField4.isEmpty)
+            .buttonStyle(BigBlueButton(isDisabled: codeField1.isEmpty || codeField2.isEmpty || codeField3.isEmpty || codeField4.isEmpty))
         }
         .onAppear {
             focusedField = .codeField1
                 }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.black)
+            //.navigationBarBackButtonHidden(true)
     }
 }
 
@@ -84,6 +87,6 @@ struct Vhod2View_Previews: PreviewProvider {
     static var previews: some View {
     
         Vhod2View()
-            .environmentObject(VhodViewModel())
+            .environmentObject(GlavnayaViewModel())
     }
 }

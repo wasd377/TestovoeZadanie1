@@ -10,7 +10,6 @@ import SwiftUI
 struct VacancieView: View {
     
     @EnvironmentObject var vm: GlavnayaViewModel
-    @EnvironmentObject var vmVhod: VhodViewModel
     
     var vacancie : Vacancie
     @State var newSchedules = [String]()
@@ -34,12 +33,12 @@ struct VacancieView: View {
                     .onTapGesture {
                         if vm.favorites.contains(vacancie.id) {
                             vm.favorites.removeAll{$0 == vacancie.id}
-                            UserDefaults.standard.removeObject(forKey: vmVhod.email)
-                            UserDefaults.standard.set(vm.favorites, forKey: vmVhod.email)
+                            UserDefaults.standard.removeObject(forKey: vm.email)
+                            UserDefaults.standard.set(vm.favorites, forKey: vm.email)
                         } else {
                             vm.favorites.append(vacancie.id)
-                            UserDefaults.standard.removeObject(forKey: vmVhod.email)
-                            UserDefaults.standard.set(vm.favorites, forKey: vmVhod.email)
+                            UserDefaults.standard.removeObject(forKey: vm.email)
+                            UserDefaults.standard.set(vm.favorites, forKey: vm.email)
                         }
                     }
             }
@@ -188,15 +187,10 @@ struct VacancieView: View {
         
 }
 
-struct VacancieView_Previews: PreviewProvider {
-    
-    static var vacancies : [Vacancie] = Bundle.main.decode("SimpleData")
-    static var vacancie = vacancies[1]
-    static var user = User(email: "wasd")
-    
-    static var previews: some View {
-        VacancieView(vacancie: vacancie)
-            .environmentObject(GlavnayaViewModel())
-            .environmentObject(VhodViewModel())
-    }
-}
+//struct VacancieView_Previews: PreviewProvider {
+  //        
+//    static var previews: some View {
+//        VacancieView(vacancie: vacancie)
+//            .environmentObject(GlavnayaViewModel())
+//    }
+//}

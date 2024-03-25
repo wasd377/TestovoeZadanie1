@@ -12,7 +12,6 @@ struct VacancieCardView: View {
     var vacancie : Vacancie
     
     @EnvironmentObject var vm : GlavnayaViewModel
-    @EnvironmentObject var vmVhod : VhodViewModel
     
     var body: some View {
         Group {
@@ -32,12 +31,12 @@ struct VacancieCardView: View {
                         .onTapGesture {
                             if vm.favorites.contains(vacancie.id) {
                                 vm.favorites.removeAll{$0 == vacancie.id}
-                                UserDefaults.standard.removeObject(forKey: vmVhod.email)
-                                UserDefaults.standard.set(vm.favorites, forKey: vmVhod.email)
+                                UserDefaults.standard.removeObject(forKey: vm.email)
+                                UserDefaults.standard.set(vm.favorites, forKey: vm.email)
                             } else {
                                 vm.favorites.append(vacancie.id)
-                                UserDefaults.standard.removeObject(forKey: vmVhod.email)
-                                UserDefaults.standard.set(vm.favorites, forKey: vmVhod.email)
+                                UserDefaults.standard.removeObject(forKey: vm.email)
+                                UserDefaults.standard.set(vm.favorites, forKey: vm.email)
                             }
                         }
                 }
@@ -92,6 +91,5 @@ struct VacancieCardView_Previews: PreviewProvider {
     static var previews: some View {
         VacancieCardView(vacancie: vacancie)
             .environmentObject(GlavnayaViewModel())
-            .environmentObject(VhodViewModel())
     }
 }

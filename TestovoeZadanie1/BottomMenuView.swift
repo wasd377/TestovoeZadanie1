@@ -10,7 +10,6 @@ import SwiftUI
 struct BottomMenuView: View {
     
     @EnvironmentObject var vm: GlavnayaViewModel
-    @EnvironmentObject var vmVhod: VhodViewModel
     
     init() {
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color.basicGrey3)
@@ -62,7 +61,7 @@ struct BottomMenuView_Previews: PreviewProvider {
     static var previews: some View {
         BottomMenuView()
             .environmentObject(GlavnayaViewModel())
-            .environmentObject(VhodViewModel())
+        
             
     }
 }

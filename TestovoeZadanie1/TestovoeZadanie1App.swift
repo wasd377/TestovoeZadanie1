@@ -14,7 +14,6 @@ struct TestovoeZadanie1App: App {
         
         WindowGroup {
            ContentView()
-                .environmentObject(VhodViewModel())
                 .environmentObject(GlavnayaViewModel())
         }
     }

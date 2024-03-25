@@ -9,7 +9,8 @@ import SwiftUI
 
 struct Vhod1View: View {
     
-    @EnvironmentObject var vmVhod : VhodViewModel
+    @EnvironmentObject var vm: GlavnayaViewModel
+    @EnvironmentObject var router: Router
 
     @State var textField = ""
     @State var textFieldCheckResult = ""
@@ -69,17 +70,19 @@ struct Vhod1View: View {
                             Button("Продолжить"){
                                 
                                 if textField.isValidEmail {
-                                    vmVhod.email = textField
-                                    //переход на следующий экран
+                                    vm.email = textField
+                                    router.navigateTo(.vhod2)
                                 } else {
                                     textFieldCheckResult = "Вы ввели неверный e-mail."
                                 }
                             }
-                            .buttonStyle(BigBlueButton(isDisabled: textField.isEmpty ? true : false ))
+                            .disabled(textField.isEmpty ? true : false)
+                            .buttonStyle(BigBlueButton(isDisabled: textField.isEmpty ? true : false))
                             
                             Button("Войти с паролем") {
-                                
+                                // Нефункциональный элемент
                             }
+                            
                         }
                         
                     }
@@ -102,7 +105,7 @@ struct Vhod1View: View {
                             .font(.fontButtonText2)
                             .padding(.bottom, 16)
                         Button("Я ищу сотрудников") {
-                            
+                            // Нефункциональный элемент
                         }
                         
                         .buttonStyle(BigGreenButton(isDisabled: false))
@@ -130,6 +133,6 @@ struct Vhod1View: View {
 struct Vhod1View_Previews: PreviewProvider {
     static var previews: some View {
         Vhod1View()
-            .environmentObject(VhodViewModel())
+            .environmentObject(GlavnayaViewModel())
     }
 }

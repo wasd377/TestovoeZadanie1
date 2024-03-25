@@ -11,39 +11,19 @@ class GlavnayaViewModel: ObservableObject {
     
     @Published var vacancies = [Vacancie]()
     @Published var favorites = [String]()
+    @Published var email : String = ""
     
     func loadLocalData(email: String) {
-        
-        
         let urlString = "https://run.mocky.io/v3/ed41d10e-0c1f-4439-94fa-9702c9d95c14"
-
             if let url = URL(string: urlString) {
                 if let data = try? Data(contentsOf: url) {
-                    
                     let decoder = JSONDecoder()
-
                         if let jsonVacancies = try? decoder.decode(Vacancies.self, from: data) {
                             vacancies = jsonVacancies.vacancies
-                           
                         }
                 }
             }
-        
-        
-        // find file with data
-//        if let url = Bundle.main.url(forResource: "TestData", withExtension: nil) {
-//            // load file into string
-//            if let jsonData = try? Data(contentsOf: url) {
-//
-//                let json = try? JSONDecoder().decode(serverResponse.self, from: jsonData)
-//
-//                vacancies = serverResponse.vacancies ?? []
-//
-//            }
-//        }
-        
         favorites = UserDefaults.standard.object(forKey: email) as? [String] ?? [String]()
-
         for vacancie in vacancies {
             if vacancie.isFavorite == true && !favorites.contains(vacancie.id) {
                 favorites.append(vacancie.id)
