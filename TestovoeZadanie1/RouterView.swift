@@ -26,11 +26,15 @@ struct RouterView<Content: View>: View {
                 .navigationDestination(for: Router.Route.self) { route in
                     router.view(for: route)
                 .navigationBarBackButtonHidden(true)
+                .safeAreaInset(edge: .bottom) {
+                   TabBarView()
+                }
                 }
         }
         .safeAreaInset(edge: .bottom) {
            TabBarView()
         }
+       
         .environmentObject(router)
     }
 }

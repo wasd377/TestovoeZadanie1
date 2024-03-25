@@ -10,6 +10,7 @@ import SwiftUI
 struct VacancieView: View {
     
     @EnvironmentObject var vm: GlavnayaViewModel
+    @EnvironmentObject var router: Router
     
     var vacancie : Vacancie
     
@@ -21,6 +22,9 @@ struct VacancieView: View {
                 Image(systemName: "arrow.left")
                     .foregroundColor(.basicWhite)
                     .font(.system(size:24))
+                    .onTapGesture {
+                        router.navigateBack()
+                    }
                 Spacer()
                 Image(systemName: "eye")
                     .foregroundColor(.basicWhite)

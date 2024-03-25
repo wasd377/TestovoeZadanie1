@@ -69,7 +69,8 @@ struct Vhod2View: View {
             
             
             Button("Подтвердить") {
-                
+                vm.isAuthorized = true
+                vm.selectedTab = 0
                 router.navigateTo(.glavnaya)
                
             }

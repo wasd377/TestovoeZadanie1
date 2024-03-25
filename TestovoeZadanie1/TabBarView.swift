@@ -11,7 +11,6 @@ struct TabBarView: View {
     
     private var unselectedItem = [Color.basicGrey3, Color.basicGrey3, Color.basicGrey3, Color.basicGrey3, Color.basicGrey3]
     @State private var selectedItem = [Color.basicGrey3, Color.basicGrey3, Color.basicGrey3, Color.basicGrey3, Color.basicGrey3]
-    @State private var selectedTab: Int? = nil
     
     @EnvironmentObject var router: Router
     @EnvironmentObject var vm: GlavnayaViewModel
@@ -29,7 +28,7 @@ struct TabBarView: View {
                 .foregroundColor(selectedItem[0])
                 .onTapGesture {
                     
-                    if !vm.email.isEmpty {
+                    if vm.isAuthorized {
                         router.navigateTo(.glavnaya)
                         selectedItem = unselectedItem
                         selectedItem[0] = Color.specialBlue
@@ -56,7 +55,7 @@ struct TabBarView: View {
                     }
                 .foregroundColor(selectedItem[1])
                 .onTapGesture {
-                    if !vm.email.isEmpty {
+                    if vm.isAuthorized {
                         router.navigateTo(.favorites)
                         selectedItem = unselectedItem
                         selectedItem[1] = Color.specialBlue
@@ -71,7 +70,7 @@ struct TabBarView: View {
                 }
                 .foregroundColor(selectedItem[2])
                 .onTapGesture {
-                    if !vm.email.isEmpty {
+                    if vm.isAuthorized {
                         router.navigateTo(.zaglushka)
                         selectedItem = unselectedItem
                         selectedItem[2] = Color.specialBlue
@@ -85,7 +84,7 @@ struct TabBarView: View {
                         .font(.fontText1)
                 }
                 .onTapGesture {
-                    if !vm.email.isEmpty {
+                    if vm.isAuthorized {
                         router.navigateTo(.zaglushka)
                         selectedItem = unselectedItem
                         selectedItem[3] = Color.specialBlue
@@ -101,7 +100,7 @@ struct TabBarView: View {
                 }
                 .foregroundColor(selectedItem[4])
                 .onTapGesture {
-                    if !vm.email.isEmpty {
+                    if vm.isAuthorized {
                         router.navigateTo(.zaglushka)
                         selectedItem = unselectedItem
                         selectedItem[4] = Color.specialBlue
@@ -112,6 +111,9 @@ struct TabBarView: View {
             .padding([.leading, .trailing], 20)
             .frame(maxWidth: .infinity)
             .background(Color.basicBlack)
+            .onAppear {
+                selectedItem[vm.selectedTab] = Color.specialBlue
+            }
         }
     }
 }

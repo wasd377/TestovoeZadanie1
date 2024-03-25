@@ -122,58 +122,57 @@ struct GlavnayaView: View {
                 .font(.fontTitle2)
                 .padding(.top, 16)
             
+           
             ScrollView {
-                VStack(spacing: 20) {
-                    
-                    Group {
-                        if showAllVacancies == false {
-                            ForEach(vm.vacancies.prefix(3)) { vacancie in
-                                    VacancieCardView(vacancie: vacancie)
-                                Button("Открыть") {
-                                    router.navigateTo(.zaglushka)
+               
+                    VStack(spacing: 20) {
+                        
+                        if vm.isLoadingData == true && vm.vacancies.count < 1 {
+                            Spacer()
+                            HStack {
+                                Spacer()
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                Spacer()
+                            }
+                            Spacer()
+                        } else {
+                            Group {
+                                if showAllVacancies == false {
+                                    ForEach(vm.vacancies.prefix(3)) { vacancie in
+                                        VacancieCardView(vacancie: vacancie)
+                                    }
+                                } else {
+                                    ForEach(vm.vacancies) { vacancie in
+                                        VacancieCardView(vacancie: vacancie)
+                                    }
                                 }
                             }
-                        } else {
-                            ForEach(vm.vacancies) { vacancie in
-                                    VacancieCardView(vacancie: vacancie)
-//                                    .onTapGesture {
-//                                        router.navigateTo(.vacancie(vacancie))
-//                                    }
-                            }
+                            .padding([.leading, .trailing], 16)
                         }
-                    }
-                    .padding([.leading, .trailing], 16)
-                    
-                    Button {
-                    } label: {
-                  if vm.vacancies.count == 1 {
-                      Text("Еще \(vm.vacancies.count) вакансия") } else if vm.vacancies.count > 1 && vm.vacancies.count < 5 {
-                          Text("Еще \(vm.vacancies.count) вакансии") } else {
-                              Text("Еще \(vm.vacancies.count) вакансий") }
-                     
-                    }
-                    .buttonStyle(BigBlueButton(isDisabled: false))
-                    .padding([.leading, .trailing], 16)
-                    
-                    if vm.isLoadingData == true {
-                        Spacer().frame(height: 100)
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                    }
-                }
-                .onAppear {
-                    Task {
-                        do {
-                            try await vm.loadData(email: vm.email)
-                        } catch {
-                            print("Error", error)
+                        
+                        Button {
+                        } label: {
+                            if vm.vacancies.count == 1 {
+                                Text("Еще \(vm.vacancies.count) вакансия") } else if vm.vacancies.count > 1 && vm.vacancies.count < 5 {
+                                    Text("Еще \(vm.vacancies.count) вакансии") } else {
+                                        Text("Еще \(vm.vacancies.count) вакансий") }
+                            
                         }
+                        .buttonStyle(BigBlueButton(isDisabled: false))
+                        .padding([.leading, .trailing], 16)
                     }
-                }
-            
-            
-            
+                
         }
+            .onAppear {
+                Task {
+                    do {
+                        try await vm.loadData(email: vm.email)
+                    } catch {
+                        print("Error", error)
+                    }
+                }
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.black)
