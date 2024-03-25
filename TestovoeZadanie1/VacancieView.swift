@@ -12,6 +12,7 @@ struct VacancieView: View {
     @EnvironmentObject var vm: GlavnayaViewModel
     
     var vacancie : Vacancie
+    
     @State var newSchedules = [String]()
     
     var body: some View {

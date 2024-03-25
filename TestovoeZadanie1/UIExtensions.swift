@@ -122,3 +122,24 @@ struct PinCode: ViewModifier {
             .padding(.bottom, 16)
     }
 }
+
+// Ограничиваем количество цифр для введения в квадратики пинкода
+class TextBindingManager: ObservableObject, Equatable {
+    static func == (lhs: TextBindingManager, rhs: TextBindingManager) -> Bool {
+        let result = lhs == rhs ? true : false
+        return result
+    }
+    
+    @Published var text = "" {
+        didSet {
+            if text.count > characterLimit && oldValue.count <= characterLimit {
+                text = oldValue
+            }
+        }
+    }
+    let characterLimit: Int
+
+    init(limit: Int = 1){
+        characterLimit = limit
+    }
+}

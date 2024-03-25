@@ -28,6 +28,9 @@ struct RouterView<Content: View>: View {
                 .navigationBarBackButtonHidden(true)
                 }
         }
+        .safeAreaInset(edge: .bottom) {
+           TabBarView()
+        }
         .environmentObject(router)
     }
 }

@@ -48,7 +48,13 @@ struct FavoritesView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.black)
         .onAppear {
-            vm.loadLocalData(email: vm.email)
+            Task {
+                do {
+                    try await vm.loadData(email: vm.email)
+                } catch {
+                    print("Error", error)
+                }
+            }
         }
     }
 }

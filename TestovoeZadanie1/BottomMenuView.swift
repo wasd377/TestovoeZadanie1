@@ -10,28 +10,27 @@ import SwiftUI
 struct BottomMenuView: View {
     
     @EnvironmentObject var vm: GlavnayaViewModel
+    @EnvironmentObject var router: Router
     
     init() {
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color.basicGrey3)
     }
     
     var authorizedUser = false
+    @State private var selectedTab: Int? = nil
     
     var body: some View {
-        
-        
-            
-        TabView {
-            Group {
-                Vhod1View().tabItem {
-                        Label("Поиск", systemImage: "magnifyingglass")
+    
+            TabView {
+                ZaglushkaView().tabItem {
+                    Label("Поиск", systemImage: "magnifyingglass")
                 }
                 FavoritesView().tabItem {
-                        Label("Избранное", systemImage: "heart")
-                            .environment(\.symbolVariants, .none)
+                    Label("Избранное", systemImage: "heart")
+                        .environment(\.symbolVariants, .none)
                 }
                 .badge(vm.favorites.count > 0 ? vm.favorites.count : 0)
-                Vhod1View()
+                ZaglushkaView()
                     .tabItem {
                         VStack {
                             Text("Отклики")
@@ -39,21 +38,19 @@ struct BottomMenuView: View {
                                 .environment(\.symbolVariants, .none)
                         }
                     }
-                Vhod1View()
+                ZaglushkaView()
                     .tabItem {
-                        Label("Сообщения", systemImage: "magnifyingglass")
+                        Label("Сообщения", systemImage: "message")
                             .environment(\.symbolVariants, .none)
                     }
-                Vhod1View()
+                ZaglushkaView()
                     .tabItem {
                         Label("Профиль", systemImage: "person")
                             .environment(\.symbolVariants, .none)
                     }
             }
-        }
-           
-            
         
+     
     }
 }
 

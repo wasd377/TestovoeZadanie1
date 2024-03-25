@@ -128,13 +128,17 @@ struct GlavnayaView: View {
                     Group {
                         if showAllVacancies == false {
                             ForEach(vm.vacancies.prefix(3)) { vacancie in
-                                
-                                VacancieCardView(vacancie: vacancie)
+                                    VacancieCardView(vacancie: vacancie)
+                                Button("Открыть") {
+                                    router.navigateTo(.zaglushka)
+                                }
                             }
                         } else {
                             ForEach(vm.vacancies) { vacancie in
-                                
-                                VacancieCardView(vacancie: vacancie)
+                                    VacancieCardView(vacancie: vacancie)
+                                    .onTapGesture {
+                                        router.navigateTo(.vacancie(vacancie))
+                                    }
                             }
                         }
                     }
@@ -150,10 +154,23 @@ struct GlavnayaView: View {
                     }
                     .buttonStyle(BigBlueButton(isDisabled: false))
                     .padding([.leading, .trailing], 16)
+                    
+                    if vm.isLoadingData == true {
+                        Spacer().frame(height: 100)
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                    }
                 }
-                .onAppear{
-                    vm.loadLocalData(email: vm.email)
+                .onAppear {
+                    Task {
+                        do {
+                            try await vm.loadData(email: vm.email)
+                        } catch {
+                            print("Error", error)
+                        }
+                    }
                 }
+            
             
             
         }

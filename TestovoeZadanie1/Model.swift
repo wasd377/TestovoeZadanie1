@@ -12,13 +12,18 @@ struct User: Codable {
     var email: String
 }
 
-struct Vacancie: Identifiable, Codable {
+struct Vacancie: Identifiable, Codable, Hashable {
+    static func == (lhs: Vacancie, rhs: Vacancie) -> Bool {
+        let result = lhs.id == rhs.id ? true : false
+        return result
+    }
+    
     var id: String
     var lookingNumber: Int?
     var title: String
     var address: Address
     
-    struct Address: Codable {
+    struct Address: Codable, Hashable {
         var town: String
         var street: String
         var house: String
@@ -27,7 +32,7 @@ struct Vacancie: Identifiable, Codable {
     var company: String
     var experience: Experience
     
-    struct Experience: Codable {
+    struct Experience: Codable, Hashable {
         var previewText: String
         var text: String
     }
@@ -37,7 +42,7 @@ struct Vacancie: Identifiable, Codable {
     
     var salary: Salary
     
-    struct Salary: Codable {
+    struct Salary: Codable, Hashable {
         var short: String?
         var full: String
     }
@@ -57,11 +62,11 @@ struct Vacancies: Codable {
 
 class Router: ObservableObject {
     // Contains the possible destinations in our Router
-    enum Route:  Hashable {
+    enum Route: Hashable {
         case vhod1
         case vhod2
         case glavnaya
-       // case vacancie(Vacancie)
+        case vacancie(Vacancie)
         case favorites
         case zaglushka
     }
@@ -78,8 +83,8 @@ class Router: ObservableObject {
             Vhod2View()
         case .glavnaya:
            GlavnayaView()
-//        case .vacancie(var vacancie):
-//            VacancieView(vacancie: vacancie)
+        case .vacancie(var vacancie):
+            VacancieView(vacancie: vacancie)
         case .favorites:
             FavoritesView()
         case .zaglushka:
@@ -103,7 +108,37 @@ class Router: ObservableObject {
     }
 }
 
+struct TabBarItem: View {
+let title: String
+let imageName: String
+let tag: Int
+@Binding var selectedTab: Int?
 
+var body: some View {
+    
+    Button {
+        selectedTab = selectedTab == tag ? nil : tag
+    } label: {
+        VStack(spacing: 4) {
+            Image(systemName: imageName)
+            Text(title)
+        }
+        .foregroundColor(selectedTab == tag ? .blue : .gray)
+    }
+  }
+}
+
+struct DataLoader {
+    func downloadData(url: URL) async -> Data? {
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            return data
+        } catch let error {
+            print(error)
+        }
+        return nil
+    }
+}
 
 
 

@@ -19,7 +19,6 @@
 		826699982BAACDE800244B66 /* BottomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826699972BAACDE800244B66 /* BottomMenuView.swift */; };
 		826C320C2BAC1CFC004DCCCC /* Vhod2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826C320B2BAC1CFC004DCCCC /* Vhod2View.swift */; };
 		826C320E2BAC1EA3004DCCCC /* UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826C320D2BAC1EA3004DCCCC /* UIExtensions.swift */; };
-		827455872BAEB3860030C10D /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827455862BAEB3850030C10D /* TestView.swift */; };
 		8283A9382BAD93CB0035A27A /* GlavnayaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8283A9372BAD93CB0035A27A /* GlavnayaView.swift */; };
 		8283A93A2BAD93D80035A27A /* GlavnayaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8283A9392BAD93D80035A27A /* GlavnayaViewModel.swift */; };
 		8283A93C2BADA9D80035A27A /* VacancieCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8283A93B2BADA9D80035A27A /* VacancieCardView.swift */; };
@@ -27,6 +26,7 @@
 		8283A9402BADB9C10035A27A /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8283A93F2BADB9C10035A27A /* FavoritesView.swift */; };
 		82903EF52BB0671600F98CF4 /* ZaglushkaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82903EF42BB0671600F98CF4 /* ZaglushkaView.swift */; };
 		82903F412BB16B6900F98CF4 /* RouterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82903F402BB16B6900F98CF4 /* RouterView.swift */; };
+		82903F452BB1A0FD00F98CF4 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82903F442BB1A0FD00F98CF4 /* TabBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +62,6 @@
 		826699972BAACDE800244B66 /* BottomMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMenuView.swift; sourceTree = "<group>"; };
 		826C320B2BAC1CFC004DCCCC /* Vhod2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vhod2View.swift; sourceTree = "<group>"; };
 		826C320D2BAC1EA3004DCCCC /* UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
-		827455862BAEB3850030C10D /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		8283A9372BAD93CB0035A27A /* GlavnayaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlavnayaView.swift; sourceTree = "<group>"; };
 		8283A9392BAD93D80035A27A /* GlavnayaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlavnayaViewModel.swift; sourceTree = "<group>"; };
 		8283A93B2BADA9D80035A27A /* VacancieCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VacancieCardView.swift; sourceTree = "<group>"; };
@@ -70,6 +69,7 @@
 		8283A93F2BADB9C10035A27A /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		82903EF42BB0671600F98CF4 /* ZaglushkaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZaglushkaView.swift; sourceTree = "<group>"; };
 		82903F402BB16B6900F98CF4 /* RouterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterView.swift; sourceTree = "<group>"; };
+		82903F442BB1A0FD00F98CF4 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,8 +122,8 @@
 			children = (
 				8266996D2BAACC1D00244B66 /* TestovoeZadanie1App.swift */,
 				8266996F2BAACC1D00244B66 /* ContentView.swift */,
-				827455862BAEB3850030C10D /* TestView.swift */,
 				826699972BAACDE800244B66 /* BottomMenuView.swift */,
+				82903F442BB1A0FD00F98CF4 /* TabBarView.swift */,
 				822EDB752BAAD1440032AFD7 /* Vhod1View.swift */,
 				826C320B2BAC1CFC004DCCCC /* Vhod2View.swift */,
 				8283A9372BAD93CB0035A27A /* GlavnayaView.swift */,
@@ -296,7 +296,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				827455872BAEB3860030C10D /* TestView.swift in Sources */,
 				826699982BAACDE800244B66 /* BottomMenuView.swift in Sources */,
 				8283A93C2BADA9D80035A27A /* VacancieCardView.swift in Sources */,
 				826C320C2BAC1CFC004DCCCC /* Vhod2View.swift in Sources */,
@@ -306,6 +305,7 @@
 				82903EF52BB0671600F98CF4 /* ZaglushkaView.swift in Sources */,
 				826C320E2BAC1EA3004DCCCC /* UIExtensions.swift in Sources */,
 				8283A93E2BADB31E0035A27A /* VacancieView.swift in Sources */,
+				82903F452BB1A0FD00F98CF4 /* TabBarView.swift in Sources */,
 				826699702BAACC1D00244B66 /* ContentView.swift in Sources */,
 				8283A9382BAD93CB0035A27A /* GlavnayaView.swift in Sources */,
 				822EDB782BAAD3C40032AFD7 /* Model.swift in Sources */,

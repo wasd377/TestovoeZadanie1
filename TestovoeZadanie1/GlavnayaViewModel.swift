@@ -12,17 +12,54 @@ class GlavnayaViewModel: ObservableObject {
     @Published var vacancies = [Vacancie]()
     @Published var favorites = [String]()
     @Published var email : String = ""
+    @Published var isLoadingData: Bool = false
     
-    func loadLocalData(email: String) {
-        let urlString = "https://run.mocky.io/v3/ed41d10e-0c1f-4439-94fa-9702c9d95c14"
-            if let url = URL(string: urlString) {
-                if let data = try? Data(contentsOf: url) {
-                    let decoder = JSONDecoder()
-                        if let jsonVacancies = try? decoder.decode(Vacancies.self, from: data) {
-                            vacancies = jsonVacancies.vacancies
-                        }
-                }
-            }
+    func loadData(email: String)  async {
+        isLoadingData = true
+       //I believe the DEMO_KEY in the url will allow limited retrievals
+       guard let url = URL(string: "https://run.mocky.io/v3/ed41d10e-0c1f-4439-94fa-9702c9d95c14") else {
+           print("Invalid URL")
+           return
+       }
+
+       do {
+           let (data, response) = try await URLSession.shared.data(from: url)
+           sleep(1)
+           guard (response as? HTTPURLResponse)?.statusCode == 200 else { return }
+           print("response status code is 200")
+           let jsonVacancies = try JSONDecoder().decode(Vacancies.self, from: data)
+           
+           vacancies = jsonVacancies.vacancies
+           print("in decoding: topLevel.fuelStations.count is \(vacancies.count)")
+           
+           favorites = UserDefaults.standard.object(forKey: email) as? [String] ?? [String]()
+           for vacancie in vacancies {
+               if vacancie.isFavorite == true && !favorites.contains(vacancie.id) {
+                   favorites.append(vacancie.id)
+               }
+           }
+           
+           UserDefaults.standard.removeObject(forKey: email)
+           UserDefaults.standard.set(favorites, forKey: email)
+           
+           isLoadingData = false
+   
+           
+       } catch {
+           print(error)
+       }
+    }
+    
+    
+    func loadLocalData(email: String) async throws {
+        guard let url = URL(string: "https://run.mocky.io/v3/ed41d10e-0c1f-4439-94fa-9702c9d95c14") else { fatalError("Missing URL") }
+            let urlRequest = URLRequest(url: url)
+            let (data, response) = try await URLSession.shared.data(for: urlRequest)
+
+            guard (response as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error while fetching data") }
+            let jsonVacancies = try JSONDecoder().decode(Vacancies.self, from: data)
+        vacancies = jsonVacancies.vacancies
+    
         favorites = UserDefaults.standard.object(forKey: email) as? [String] ?? [String]()
         for vacancie in vacancies {
             if vacancie.isFavorite == true && !favorites.contains(vacancie.id) {

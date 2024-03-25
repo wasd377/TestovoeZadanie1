@@ -17,6 +17,7 @@ struct Vhod1View: View {
     
     var body: some View {
         
+
         VStack(alignment: .leading) {
             Group {
                 Text("Вход в личный кабинет")
@@ -122,6 +123,7 @@ struct Vhod1View: View {
         
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.black)
+      
         
     }
 }

@@ -12,14 +12,11 @@ struct Vhod2View: View {
     @EnvironmentObject var vm : GlavnayaViewModel
     @EnvironmentObject var router: Router
     
-    @State var codeField1 = ""
-    @State var codeField2 = ""
-    @State var codeField3 = ""
-    @State var codeField4 = ""
+    @State var code = ["", "", "", ""]
     @FocusState private var focusedField : FocusedField?
     
     enum FocusedField {
-           case codeField1, codeField2, codeField3, codeField4
+           case codeField0, codeField1, codeField2, codeField3
        }
     
     var body: some View {
@@ -35,33 +32,39 @@ struct Vhod2View: View {
                 .padding(.bottom, 16)
                 
             HStack {
-                TextField(" ", text: $codeField1, prompt: focusedField == .codeField1 ? Text("Yes") : Text("*").foregroundColor(.basicGrey4).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold))))
+                TextField(" ", text: $code[0], prompt: focusedField == .codeField0 ? Text("Yes") : Text("*").foregroundColor(.basicGrey4).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold))))
+                    .focused($focusedField, equals: .codeField0)
+                    .modifier(PinCode())
+                TextField(" ", text: $code[1], prompt: focusedField == .codeField1 ? Text("Yes") : Text("*").foregroundColor(.basicGrey4).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold))))
                     .focused($focusedField, equals: .codeField1)
                     .modifier(PinCode())
-                TextField(" ", text: $codeField2, prompt: focusedField == .codeField2 ? Text("Yes") : Text("*").foregroundColor(.basicGrey4).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold))))
+                TextField(" ", text: $code[2], prompt: focusedField == .codeField2 ? Text("Yes") : Text("*").foregroundColor(.basicGrey4).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold))))
                     .focused($focusedField, equals: .codeField2)
                     .modifier(PinCode())
-                TextField(" ", text: $codeField3, prompt: focusedField == .codeField3 ? Text("Yes") : Text("*").foregroundColor(.basicGrey4).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold))))
+                TextField(" ", text: $code[3], prompt: focusedField == .codeField3 ? Text("Yes") : Text("*").foregroundColor(.basicGrey4).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold))))
                     .focused($focusedField, equals: .codeField3)
                     .modifier(PinCode())
-                TextField(" ", text: $codeField4, prompt: focusedField == .codeField4 ? Text("Yes") : Text("*").foregroundColor(.basicGrey4).font(Font(UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.semibold))))
-                    .focused($focusedField, equals: .codeField4)
-                    .modifier(PinCode())
             }
-            .onChange(of: codeField1) { value in
-                if !codeField1.isEmpty {
+            .onChange(of: code[0]) { value in
+                if !code[0].isEmpty {
+                    focusedField = .codeField1
+                }
+                self.code[0] = String(value.prefix(1))
+            }
+            .onChange(of: code[1]) { value in
+                if !code[1].isEmpty {
                     focusedField = .codeField2
                 }
+                self.code[1] = String(value.prefix(1))
             }
-            .onChange(of: codeField2) { value in
-                if !codeField2.isEmpty {
+            .onChange(of: code[2]) { value in
+                if !code[2].isEmpty {
                     focusedField = .codeField3
                 }
+                self.code[2] = String(value.prefix(1))
             }
-            .onChange(of: codeField3) { value in
-                if !codeField3.isEmpty {
-                    focusedField = .codeField4
-                }
+            .onChange(of: code[3]) { value in
+                self.code[3] = String(value.prefix(1))
             }
             
             
@@ -70,15 +73,14 @@ struct Vhod2View: View {
                 router.navigateTo(.glavnaya)
                
             }
-            .disabled(codeField1.isEmpty || codeField2.isEmpty || codeField3.isEmpty || codeField4.isEmpty)
-            .buttonStyle(BigBlueButton(isDisabled: codeField1.isEmpty || codeField2.isEmpty || codeField3.isEmpty || codeField4.isEmpty))
+            .disabled(code.contains("") ? true : false)
+            .buttonStyle(BigBlueButton(isDisabled: code.contains("") ? true : false))
         }
         .onAppear {
-            focusedField = .codeField1
+            focusedField = .codeField0
                 }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.black)
-            //.navigationBarBackButtonHidden(true)
     }
 }
 
