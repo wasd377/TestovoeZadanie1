@@ -21,8 +21,9 @@ class GlavnayaViewModel: ObservableObject {
             self.isLoadingData = true
                }
         
-    guard let url = URL(string: "https://run.mocky.io/v3/ed41d10e-0c1f-4439-94fa-9702c9d95c14") else { 
-     //  guard let url = URL(string: "https://demo7249244.mockable.io/test") else {
+    guard let url = URL(string: "https://run.mocky.io/v3/ed41d10e-0c1f-4439-94fa-9702c9d95c14") else {
+        // Тестовый файл, потому что ваш перестал отвечать в какой-то момент вообще
+        //  guard let url = URL(string: "https://demo7249244.mockable.io/test") else {
            print("Invalid URL")
            return
        }
