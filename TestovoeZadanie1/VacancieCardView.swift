@@ -12,6 +12,7 @@ struct VacancieCardView: View {
     var vacancie : Vacancie
     
     @EnvironmentObject var vm : GlavnayaViewModel
+    @EnvironmentObject var router: Router
     
     var body: some View {
         Group {
@@ -78,18 +79,18 @@ struct VacancieCardView: View {
         .padding([.leading, .trailing], 16)
         .background(Color.basicGrey1)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .onTapGesture {
+            router.navigateTo(.vacancie(vacancie))
+        }
     }
     
 }
 
 
-struct VacancieCardView_Previews: PreviewProvider {
-    
-    static var vacancies : [Vacancie] = Bundle.main.decode("SimpleData")
-    static var vacancie = vacancies[0]
-
-    static var previews: some View {
-        VacancieCardView(vacancie: vacancie)
-            .environmentObject(GlavnayaViewModel())
-    }
-}
+//struct VacancieCardView_Previews: PreviewProvider {
+//
+//    static var previews: some View {
+//        VacancieCardView(vacancie: vacancie)
+//            .environmentObject(GlavnayaViewModel())
+//    }
+//}

@@ -28,9 +28,12 @@ struct TabBarView: View {
                 }
                 .foregroundColor(selectedItem[0])
                 .onTapGesture {
-                    router.navigateTo(.glavnaya)
-                    selectedItem = unselectedItem
-                    selectedItem[0] = Color.specialBlue
+                    
+                    if !vm.email.isEmpty {
+                        router.navigateTo(.glavnaya)
+                        selectedItem = unselectedItem
+                        selectedItem[0] = Color.specialBlue
+                    }
                 }
                 Spacer()
                     ZStack {
@@ -53,9 +56,11 @@ struct TabBarView: View {
                     }
                 .foregroundColor(selectedItem[1])
                 .onTapGesture {
-                    router.navigateTo(.favorites)
-                    selectedItem = unselectedItem
-                    selectedItem[1] = Color.specialBlue
+                    if !vm.email.isEmpty {
+                        router.navigateTo(.favorites)
+                        selectedItem = unselectedItem
+                        selectedItem[1] = Color.specialBlue
+                    }
                 }
                 Spacer()
                 VStack {
@@ -66,9 +71,11 @@ struct TabBarView: View {
                 }
                 .foregroundColor(selectedItem[2])
                 .onTapGesture {
-                    router.navigateTo(.zaglushka)
-                    selectedItem = unselectedItem
-                    selectedItem[2] = Color.specialBlue
+                    if !vm.email.isEmpty {
+                        router.navigateTo(.zaglushka)
+                        selectedItem = unselectedItem
+                        selectedItem[2] = Color.specialBlue
+                    }
                 }
                 Spacer()
                 VStack {
@@ -78,9 +85,11 @@ struct TabBarView: View {
                         .font(.fontText1)
                 }
                 .onTapGesture {
-                    router.navigateTo(.zaglushka)
-                    selectedItem = unselectedItem
-                    selectedItem[3] = Color.specialBlue
+                    if !vm.email.isEmpty {
+                        router.navigateTo(.zaglushka)
+                        selectedItem = unselectedItem
+                        selectedItem[3] = Color.specialBlue
+                    }
                 }
                 .foregroundColor(selectedItem[3])
                 Spacer()
@@ -92,9 +101,11 @@ struct TabBarView: View {
                 }
                 .foregroundColor(selectedItem[4])
                 .onTapGesture {
-                    router.navigateTo(.zaglushka)
-                    selectedItem = unselectedItem
-                    selectedItem[4] = Color.specialBlue
+                    if !vm.email.isEmpty {
+                        router.navigateTo(.zaglushka)
+                        selectedItem = unselectedItem
+                        selectedItem[4] = Color.specialBlue
+                    }
                 }
             }
             .padding([.top, .bottom],10)

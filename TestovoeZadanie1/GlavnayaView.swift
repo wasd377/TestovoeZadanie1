@@ -136,9 +136,9 @@ struct GlavnayaView: View {
                         } else {
                             ForEach(vm.vacancies) { vacancie in
                                     VacancieCardView(vacancie: vacancie)
-                                    .onTapGesture {
-                                        router.navigateTo(.vacancie(vacancie))
-                                    }
+//                                    .onTapGesture {
+//                                        router.navigateTo(.vacancie(vacancie))
+//                                    }
                             }
                         }
                     }
